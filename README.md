@@ -1,6 +1,6 @@
 # mrkd
 
-Write man pages using Markdown, and conver them to Roff or HTML.
+Write man pages using Markdown, and convert them to Roff or HTML.
 
 ## Installation
 

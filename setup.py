@@ -7,7 +7,7 @@ with open('requirements.txt') as fp:
 
 setup(
     name='mrkd',
-    description='Write man pages using Markdown, and conver them to Roff or HTML',
+    description='Write man pages using Markdown, and convert them to Roff or HTML',
     version='0.1.0',
     author='Ryan Gonzalez',
     author_email='rymg19@gmail.com',
