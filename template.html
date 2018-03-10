@@ -1,0 +1,106 @@
+{% set head = '%s(%s)' % (name, section) %}
+
+<head>
+  <title>{{head}} - {{description}}</title>
+  <meta name="viewport" content="width=device-width">
+
+  <style>{{pygments_css}}</style>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: initial;
+      padding: 1em 2em;
+      margin-left: 4em;
+    }
+
+    body h2 {
+      margin-left: -3em;
+    }
+
+    pre {
+      overflow-x: auto;
+    }
+
+    pre::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    pre::-webkit-scrollbar-track {
+        background: #EEEEEE;
+    }
+
+    pre::-webkit-scrollbar-thumb {
+      background: #9E9E9E;
+    }
+
+    pre::-webkit-scrollbar-thumb:hover {
+      background: #757575;
+    }
+
+    a, a:visited {
+      color: blue;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: white;
+      background: blue;
+    }
+
+    .hl, .hl:visited {
+      color: black;
+    }
+
+    .hl:hover {
+      color: #424242;
+      background: none;
+    }
+
+    .top {
+      color: #757575;
+      display: flex;
+      font-family: monospace;
+    }
+
+    .top .left {
+      align-self: flex-start;
+    }
+
+    .top .middle, .top .right {
+      margin-left: auto;
+    }
+
+    @media only screen and (max-width: 768px) {
+      body {
+        margin-left: 1em;
+      }
+
+      body h2 {
+        margin-left: -1em;
+      }
+
+      .top .middle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top">
+    <div class="left">
+      {{head | upper}}
+    </div>
+
+    <div class="middle">
+      test
+    </div>
+
+    <div class="right">
+      {{head | upper}}
+    </div>
+  </div>
+
+  {{content}}
+</body>
