@@ -43,9 +43,9 @@ class RoffRenderer(mistune.Renderer):
 
     def block_code(self, code, lang):
         return lines(
-            '.NF',
+            '.nf',
             self.block_quote(code.replace('\\', '\\\\')),
-            '.FI',
+            '.fi',
         )
 
     def block_html(self, html):
