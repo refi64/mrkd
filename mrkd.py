@@ -129,7 +129,7 @@ class RoffRenderer(mistune.Renderer):
         return self.text(text)
 
     def text(self, text):
-        return text.replace('\\', '\\\\').replace('"', r'\"').replace('.', '\.')
+        return text.replace('\\', '\\\\').replace('.', '\.')
 
     def inline_html(self, text):
         return ''
