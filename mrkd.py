@@ -87,10 +87,16 @@ class RoffRenderer(mistune.Renderer):
                 buf.write(chunk)
                 count += 1
 
-            return lines(buf.getvalue())
+            return lines(
+                '.RS',
+                buf.getvalue(),
+                '.RE'
+            )
         else:
             return lines(
+                '.RS',
                 body.replace('\0', '.IP \\[bu]'),
+                '.RE'
             )
 
     def list_item(self, text):
