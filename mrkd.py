@@ -126,7 +126,9 @@ class RoffRenderer(mistune.Renderer):
         assert 0
 
     def link(self, link, title, content):
-        if title is None:
+        if content is None:
+            return f'{self.emphasis(link)}'
+        elif title is None:
             return f'{self.double_emphasis(content)} ({self.emphasis(link)})'
         else:
             return f'{self.double_emphasis(content)} ({title}: {self.emphasis(link)})'
