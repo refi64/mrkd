@@ -24,6 +24,8 @@ and try an:
 
 [some more text](another link "Link Title")
 
+https://a-link.com/
+
 ```c
 #include <lets-try-code.h>
 
