@@ -85,6 +85,10 @@
       }
     }
   </style>
+
+  {% if custom_css is defined %}
+    <style>{{custom_css}}</style>
+  {% endif %}
 </head>
 
 <body>
