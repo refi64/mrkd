@@ -182,6 +182,12 @@ class HtmlRenderer(mistune.Renderer, mistune_contrib.highlight.HighlightMixin):
         )
 
 
+def pygments_css_callback(style_name):
+    style = pygments.styles.get_style_by_name(style_name)
+    fm = pygments.formatters.get_formatter_by_name('html', style=style)
+    return fm.get_style_defs()
+
+
 def entry_point(source: 'The source man page',
                 output: 'The output file',
                 name: ('The name to use for the man page', 'option'),
@@ -232,15 +238,12 @@ def entry_point(source: 'The source man page',
             with open(template) as fp:
                 template_data = template.read()
 
-        style = pygments.styles.get_style_by_name('friendly')
-        fm = pygments.formatters.get_formatter_by_name('html', style=style)
-
         result = jinja2.Template(template_data).render(
             name=name,
             section=section,
             description=getattr(renderer, 'description', ''),
             content=result,
-            pygments_css=fm.get_style_defs(),
+            pygments_css=pygments_css_callback,
         )
 
     if output == '-':
