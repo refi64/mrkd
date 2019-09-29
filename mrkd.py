@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import argparse
+import ast
 import configparser
 import io
 import jinja2
@@ -11,6 +13,7 @@ import plac
 import pygments.formatters
 import pygments.styles
 import re
+import shlex
 import string
 import sys
 
@@ -188,6 +191,20 @@ def pygments_css_callback(style_name):
     return fm.get_style_defs()
 
 
+def dict_argument_type(values):
+    result = {}
+
+    for value in shlex.split(values, posix=False):
+        k, v = value.split('=', 1)
+
+        try:
+            result[k] = ast.literal_eval(v)
+        except SyntaxError:
+            raise ValueError() from None
+
+    return result
+
+
 def entry_point(source: 'The source man page',
                 output: 'The output file',
                 name: ('The name to use for the man page', 'option'),
@@ -195,7 +212,9 @@ def entry_point(source: 'The source man page',
                 template: ('The HTML template file to use', 'option'),
                 index: ('An index file to use for HTML links', 'option'),
                 format: ('The output format', 'option', None, str,
-                         ['html', 'roff']) = 'roff'):
+                         ['html', 'roff']) = 'roff',
+                vars: ('Extra variables for the Jinja2 HTML template', 'option', None,
+                       dict_argument_type) = {}):
     m = re.match(r'(.*).(\d).[^.]+$', os.path.basename(source))
     if m is None:
         if name is None or section is None:
@@ -244,6 +263,7 @@ def entry_point(source: 'The source man page',
             description=getattr(renderer, 'description', ''),
             content=result,
             pygments_css=pygments_css_callback,
+            **vars,
         )
 
     if output == '-':
