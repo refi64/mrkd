@@ -6,10 +6,11 @@ import configparser
 import io
 import jinja2
 import mistune
-import mistune_contrib.highlight
 import os
 import pkg_resources
+import pygments
 import pygments.formatters
+import pygments.lexers
 import pygments.styles
 import re
 import shlex
@@ -143,14 +144,14 @@ class RoffRenderer(mistune.Renderer):
         return ''
 
 
-class HtmlRenderer(mistune.Renderer, mistune_contrib.highlight.HighlightMixin):
+class HtmlRenderer(mistune.Renderer):
     def __init__(self, name, sect, index):
         super(HtmlRenderer, self).__init__()
         self.name = name
         self.sect = sect
         self.index = index
 
-        self.options['inlinestyles'] = False
+        self.formatter = pygments.formatters.HtmlFormatter()
 
     def reference(self, text, section):
         result = f'{self.double_emphasis(text)}({section})'
@@ -161,7 +162,8 @@ class HtmlRenderer(mistune.Renderer, mistune_contrib.highlight.HighlightMixin):
         return result
 
     def block_code(self, code, lang):
-        return mistune_contrib.highlight.HighlightMixin.block_code(self, code, lang)
+        lexer = pygments.lexers.get_lexer_by_name(lang or 'text')
+        return pygments.highlight(code, lexer, self.formatter)
 
     def header(self, text, level, raw=None):
         post = ''
@@ -184,7 +186,7 @@ class HtmlRenderer(mistune.Renderer, mistune_contrib.highlight.HighlightMixin):
 
 def pygments_css_callback(style_name):
     style = pygments.styles.get_style_by_name(style_name)
-    fm = pygments.formatters.get_formatter_by_name('html', style=style)
+    fm = pygments.formatters.HtmlFormatter(style=style)
     return fm.get_style_defs()
 
 
