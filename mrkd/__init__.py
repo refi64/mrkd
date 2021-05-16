@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import ast
 import configparser
 import io
@@ -8,7 +9,6 @@ import mistune
 import mistune_contrib.highlight
 import os
 import pkg_resources
-import plac
 import pygments.formatters
 import pygments.styles
 import re
@@ -202,17 +202,29 @@ def dict_argument_type(values):
     return result
 
 
-def entry_point(source: 'The source man page',
-                output: 'The output file',
-                name: ('The name to use for the man page', 'option'),
-                section: ('The section to use for the man page', 'option'),
-                template: ('The HTML template file to use', 'option'),
-                index: ('An index file to use for HTML links', 'option'),
-                format: ('The output format', 'option', None, str, ['html',
-                                                                    'roff']) = 'roff',
-                vars: ('Extra variables for the Jinja2 HTML template', 'option', None,
-                       dict_argument_type) = {}):
-    m = re.match(r'(.*).(\d).[^.]+$', os.path.basename(source))
+def main():
+    parser = argparse.ArgumentParser(prog='mrkd', allow_abbrev=True)
+    parser.add_argument('source', help='The source man page')
+    parser.add_argument('output', help='The output file')
+    parser.add_argument('-name', help='The name to use for the man page')
+    parser.add_argument('-section', help='The section to use for the man page')
+    parser.add_argument('-template', help='The HTML template file to use')
+    parser.add_argument('-index', help='An index file to use for HTML links')
+    parser.add_argument('-format',
+                        help='The output format',
+                        choices=['html', 'roff'],
+                        default='roff')
+    parser.add_argument('-vars',
+                        help='Extra variables for the Jinja2 HTML template',
+                        type=dict_argument_type,
+                        default={})
+
+    args = parser.parse_args()
+
+    name = args.name
+    section = args.section
+
+    m = re.match(r'(.*).(\d).[^.]+$', os.path.basename(args.source))
     if m is None:
         if name is None or section is None:
             sys.exit('Both -name and -section must be passed for invalid filenames.')
@@ -222,9 +234,9 @@ def entry_point(source: 'The source man page',
         if section is None:
             section = m.group(2)
 
-    if index is not None:
+    if args.index is not None:
         index_config = configparser.ConfigParser()
-        with open(index) as fp:
+        with open(args.index) as fp:
             index_config.read_file(fp)
 
         try:
@@ -238,21 +250,21 @@ def entry_point(source: 'The source man page',
         'roff': RoffRenderer,
         'html': HtmlRenderer,
     }
-    renderer = renderers[format](name, section, index_data)
+    renderer = renderers[args.format](name, section, index_data)
 
     inline = ReferenceLexer(renderer)
     inline.enable_reference()
 
-    with open(source) as fp:
+    with open(args.source) as fp:
         result = mistune.markdown(fp.read(), inline=inline, renderer=renderer)
 
-    if format == 'html':
-        if template is None:
+    if args.format == 'html':
+        if args.template is None:
             template_data = pkg_resources.resource_string(__name__, 'template.html') \
                                          .decode('utf-8')
         else:
-            with open(template) as fp:
-                template_data = template.read()
+            with open(args.template) as fp:
+                template_data = fp.read()
 
         result = jinja2.Template(template_data).render(
             name=name,
@@ -260,18 +272,14 @@ def entry_point(source: 'The source man page',
             description=getattr(renderer, 'description', ''),
             content=result,
             pygments_css=pygments_css_callback,
-            **vars,
+            **args.vars,
         )
 
-    if output == '-':
+    if args.output == '-':
         print(result)
     else:
-        with open(output, 'w') as fp:
+        with open(args.output, 'w') as fp:
             fp.write(result)
-
-
-def main():
-    plac.call(entry_point)
 
 
 if __name__ == '__main__':
