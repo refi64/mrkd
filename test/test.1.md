@@ -7,11 +7,25 @@
 - non
 - ordered
 - list
+  - with
+  - some
+  - nesting
+  - and
+    1. some
+    2. mixed
+    3. nesting
 
 and try an:
 
 1. ordered
 2. list
+3. nesting
+  1. here
+  2. too!
+  3. and
+    - some
+    - mixed
+    - nesting
 
 > this is an indent;
 > horizontal breaks don't work yet (no clue why though :/)

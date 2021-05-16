@@ -86,17 +86,18 @@ class RoffRenderer(mistune.Renderer):
                 buf.write(chunk)
                 count += 1
 
-            return lines(
-                '.RS',
-                buf.getvalue(),
-                '.RE',
-            )
+            contents = buf.getvalue()
         else:
-            return lines(
-                '.RS',
-                body.replace('\0', '.IP \\[bu]'),
-                '.RE',
-            )
+            contents = body.replace('\0', '.IP \\[bu]')
+
+        return lines(
+            # Mistune won't put any line breaks before our text, so nested lists break. As
+            # a workaround, add an extra newline here.
+            '',
+            '.RS',
+            contents,
+            '.RE',
+        )
 
     def list_item(self, text):
         return lines(

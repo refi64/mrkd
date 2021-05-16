@@ -1,0 +1,104 @@
+.TH "TEST" "1" "" "" "test"
+.SH NAME
+mytool - text
+.SH SYNOPSIS
+
+\fBmytool\fR \fIthis-is-underlined\fR \fBthis is bold\fR \fBthis is also bold\fR
+
+
+.RS
+.IP \[bu]
+non
+.IP \[bu]
+ordered
+.IP \[bu]
+list
+.RS
+.IP \[bu]
+with
+.IP \[bu]
+some
+.IP \[bu]
+nesting
+.IP \[bu]
+and
+.RS
+.IP 1\.
+some
+.IP 2\.
+mixed
+.IP 3\.
+nesting
+
+.RE
+
+
+.RE
+
+
+.RE
+
+and try an:
+
+
+.RS
+.IP 1\.
+ordered
+.IP 2\.
+list
+.IP 3\.
+nesting
+.RS
+.IP 1\.
+here
+.IP 2\.
+too!
+.IP 3\.
+and
+.RS
+.IP \[bu]
+some
+.IP \[bu]
+mixed
+.IP \[bu]
+nesting
+
+.RE
+
+
+.RE
+
+
+.RE
+.RS
+
+this is an indent;
+horizontal breaks don't work yet (no clue why though :/)
+
+
+.RE
+.HL
+.SH ANOTHER SUBHEADER
+
+\fBsome text\fR (\fIa link\fR)
+
+
+\fBsome more text\fR (Link Title: \fIanother link\fR)
+
+
+\fIhttps://a-link.com/\fR
+
+.nf
+.RS
+#include <lets-try-code.h>
+
+int main() {
+  return "Woot!"[0] - 0x0;
+}
+.RE
+
+.fi
+.SH SEE ALSO
+
+\fBmy-reference\fR(1), \fBmy-reference\fR(2), \fBsystemd.index\fR(7)
+
