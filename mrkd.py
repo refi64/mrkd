@@ -17,8 +17,7 @@ import shlex
 import string
 import sys
 
-
-lines = lambda *a: '\n'.join(a)+'\n'
+lines = lambda *a: '\n'.join(a) + '\n'
 
 
 class ReferenceLexer(mistune.InlineLexer):
@@ -72,9 +71,7 @@ class RoffRenderer(mistune.Renderer):
                 f'{text.replace("--", "-")}',
             )
         else:
-            return lines(
-                f'.SH {text}'
-            )
+            return lines(f'.SH {text}')
 
     def hrule(self):
         return lines('.HL')
@@ -93,13 +90,13 @@ class RoffRenderer(mistune.Renderer):
             return lines(
                 '.RS',
                 buf.getvalue(),
-                '.RE'
+                '.RE',
             )
         else:
             return lines(
                 '.RS',
                 body.replace('\0', '.IP \\[bu]'),
-                '.RE'
+                '.RE',
             )
 
     def list_item(self, text):
@@ -179,7 +176,7 @@ class HtmlRenderer(mistune.Renderer, mistune_contrib.highlight.HighlightMixin):
         ref = ''.join(c for c in raw.replace(' ', '-') if c in chars).lower()
         return lines(
             f'<h{level} id="{ref}">'
-                f'<a class="hl" href="#{ref}">{text}</a>'
+            f'<a class="hl" href="#{ref}">{text}</a>'
             f'</h{level}>',
             post,
         )
@@ -211,8 +208,8 @@ def entry_point(source: 'The source man page',
                 section: ('The section to use for the man page', 'option'),
                 template: ('The HTML template file to use', 'option'),
                 index: ('An index file to use for HTML links', 'option'),
-                format: ('The output format', 'option', None, str,
-                         ['html', 'roff']) = 'roff',
+                format: ('The output format', 'option', None, str, ['html',
+                                                                    'roff']) = 'roff',
                 vars: ('Extra variables for the Jinja2 HTML template', 'option', None,
                        dict_argument_type) = {}):
     m = re.match(r'(.*).(\d).[^.]+$', os.path.basename(source))
