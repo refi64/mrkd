@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open('requirements.txt') as fp:
@@ -12,16 +12,14 @@ setup(
     author='Ryan Gonzalez',
     author_email='rymg19@gmail.com',
     license='BSD',
-    url='https://github.com/kirbyfan64/mrkd',
-    py_modules=['mrkd'],
+    url='https://github.com/refi64/mrkd',
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'mrkd=mrkd:main',
         ],
     },
-    package_data={
-        '': ['template.html'],
-    },
+    include_package_data=True,
     install_requires=requirements,
     classifiers=[
         'Programming Language :: Python :: 3 :: Only',
