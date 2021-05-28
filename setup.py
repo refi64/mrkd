@@ -1,9 +1,7 @@
 from setuptools import setup, find_packages
 
-
 with open('requirements.txt') as fp:
     requirements = fp.read().splitlines()
-
 
 setup(
     name='mrkd',
@@ -15,9 +13,7 @@ setup(
     url='https://github.com/refi64/mrkd',
     packages=find_packages(),
     entry_points={
-        'console_scripts': [
-            'mrkd=mrkd:main',
-        ],
+        'console_scripts': ['mrkd=mrkd:main', ],
     },
     include_package_data=True,
     install_requires=requirements,
