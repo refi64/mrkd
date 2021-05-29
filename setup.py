@@ -5,7 +5,7 @@ with open('README.md') as fp:
 
 setup(
     name='mrkd',
-    version='0.1.7',
+    version='0.2.0',
     description='Write man pages using Markdown, and convert them to Roff or HTML',
     long_description=readme,
     long_description_content_type='text/markdown',
