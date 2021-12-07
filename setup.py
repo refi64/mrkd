@@ -18,7 +18,7 @@ setup(
         'console_scripts': ['mrkd=mrkd:main'],
     },
     include_package_data=True,
-    install_requires=['Jinja2', 'mistune', 'pygments'],
+    install_requires=['Jinja2', 'mistune == 0.8.4', 'pygments'],
     classifiers=[
         'Programming Language :: Python :: 3 :: Only',
         'License :: OSI Approved :: BSD License',
